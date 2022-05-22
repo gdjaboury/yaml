@@ -1,0 +1,203 @@
+# must have a space after :
+
+# --- IS START YAML FILE
+# ... IS END YAML FILE
+
+# yaml is a superset of json
+
+# Resource: https://yamllint.readthedocs.io/en/latest/
+
+# atom.io
+# recommended packages: "linter-js-yaml" and "language-yaml"
+firstname: eazy
+lastname: bytes
+#need quotations marks if you want : in value pair
+middlename: "peasy:"
+#array with 2 spaces and -
+courses:
+  - YAML
+  - network
+  - security
+
+
+  #RULES
+  # 1. never use tab instead of space
+  # 2. YAML is case sensitive
+
+# SCALER - represents a single stored value
+
+#STRINGS
+# Can define a string with single or double quotes or without any quotation marks
+name: bob
+language: "spanish"
+area: 'online'
+
+#---------------------------------
+major-version: 2
+#numbers in strings in double quotes
+minor-version: "0.4"
+
+#-----------------
+# BOOLEAN
+good-day: TRUE
+bad-day: false
+
+# yes and no means true or false
+nice: Yes
+angry: No
+
+positive-infinity: .inf # evaluates to infinity
+negative-infiity: -.inf # evaluates to negative infiity
+invalid-number: .NAN # not a number
+null-value: null
+another-null-value: ~
+
+# -----------------strings
+# quotation marks only needed for special characters
+# "Yes" and "no" should be in quotes or else they will be interpretted as boolean values
+
+# | is literal style: keeps lines
+# > is folded style: new lines ignored
+# yaml doesn't support multipe line comments
+organization: eazybank
+about: |-   # - is to not add the last line break. + will retain a new line if there was a line break at the end
+  eazybank
+  is a
+  bank
+history: >  # doesn't keeep lines. puts on single line. Can use - or +
+  eazybank
+  established
+  in 1900
+products: "[Accounts] and {cards}" # special characters in quotes
+hasMobileApp: "Yes" # without quotes is boolean
+
+#--------------------- DATA TYPES---------------------
+# tell yaml to treat certain values as boolean, float, string, etc
+# ensures values maintain data type and will error if someone tries to do something else
+# !!<type-name>
+# EXPLICIT TYPING
+zero: !!int 0
+positive: !!int 30
+big: !!bool TRUE
+get float: !!float -3.14
+string: !!str hello world
+key with null value: !!null null
+randomdate: !!timestamp 2022-02-01 1:31:11.4 # ensures adheres to specific timestamp
+
+#--------------------SEQUENCES------------------------
+# block style = new line per item
+# flow style = 1 line for all items
+routers:       # BLOCK STYLE
+  - Cisco
+    - ios
+    - xr
+    - asr
+  - Juniper
+    - mx280
+    - mx480
+  - locations: [ny, va, md, dc, ca]     # FLOW STYLE
+
+#--------------DICTIONARIES--------------------
+# 3 dictionaries
+applications:
+  - cards:
+    name: eazycards
+    technology: python
+    team-size: 12
+  - accounts:
+    name: eazyaccounts
+    technology: java
+    team-size: 4
+  - loans:
+    name: eazyloans
+    technology: ruby
+    team-size: 41
+
+# ---------------COMPLEX KEYS-----------------
+# Use ? following a space to indicate a complex key
+# complex keys might have multiple lines
+
+? This is a key
+  that has multiple lines
+: and this is its value
+? - development
+  - uat
+  - prod
+: - www.usaa.com
+  - www.usbank.com
+  - www.whocares.org
+
+# ----------ANCHORS AND ALIAS--------------
+# use anchors when repeating a chunk of vakues
+# The anchor '&' which defines a chunk of values
+# alias '*' used to refer to that chuck somewhere
+# alias acts as a "see above" command
+# anchors and aliases cannot contain these characters: [] {} and ,
+# an alias refers to an anchor by using same name
+
+  # modify an anchor
+  # use '<<:' to override
+
+definitions:
+  days:
+    - weekday: &working   # ANCHOR
+       wakeup: 6am
+       activities:
+         - workout
+         - meeting
+         - work
+         - sleep
+       sleeptime: 10pm
+    - weekend: &holiday   # ANCHOR
+       wakeup: 8am
+       activities:
+         - workout
+         - ice cream
+         - netflix
+         - party
+         - sleep
+       sleeptime: 12am
+
+schedules:
+  days:
+    weekdays:
+      - mon: *working   # ALIAS
+      - tues: *working  # ALIAS
+      - wed: *working   # ALIAS
+      - thurs: *working # ALIAS
+      - fri:
+         <<: *working    # OVERRIDE ANCHOR
+         sleeptime: 1am  # OVERRIDE EDIT
+         netflix: true   # OVERRIDE NEW VALUE
+    weekends:
+      - sat: *holiday   # ALIAS
+      - sun:
+         <<: *holiday   # OVERRIDE ANCHOR
+         sleeptime: 9pm # OVERRIDE VALUE
+
+  #------------- MULTI-DOCUMENT ---------------
+  # same text doc can separate yaml docs by using
+---
+ document: 1
+...
+
+---
+  document: 2
+...
+
+# ------------YAML LINT---------------
+# install python
+# install yamllint
+
+# cd C:\Users\gdjab\AppData\Local\Programs\Python\Python39\Scripts
+# yamllint file.yml     one file
+# yamllint .            all yaml files in directory
+
+# resource: https://yamllint.readthedocs.io/
+
+# to override default yamllint configurations used to validate
+# need to create a .yamllint file and have all default configs there
+
+#----------- CONFIG EXAMPLES-----------------
+# https://docs.aws.amazon.com/cloudformation/?id=docs_gateway
+# user guide - working with templates - temlate formats
